@@ -28316,11 +28316,11 @@ impl MtaStageAuth {
                 else_: "false".to_string(),
                 match_: List::from_iter([
                     ExpressionMatch {
-                        if_: "local_port != 25 && is_tls".to_string(),
+                        if_: "listener != 'smtp' && is_tls".to_string(),
                         then: "[plain, login, oauthbearer, xoauth2]".to_string(),
                     },
                     ExpressionMatch {
-                        if_: "local_port != 25".to_string(),
+                        if_: "listener != 'smtp'".to_string(),
                         then: "[oauthbearer, xoauth2]".to_string(),
                     },
                 ]),
@@ -28348,7 +28348,7 @@ impl MtaStageAuth {
         ExpressionContext {
             expr: &self.require,
             default: Some(Expression {
-                else_: "local_port != 25".to_string(),
+                else_: "listener != 'smtp'".to_string(),
                 ..Default::default()
             }),
             property: Property::Require,
@@ -28403,11 +28403,11 @@ impl Default for MtaStageAuth {
                 else_: "false".to_string(),
                 match_: List::from_iter([
                     ExpressionMatch {
-                        if_: "local_port != 25 && is_tls".to_string(),
+                        if_: "listener != 'smtp' && is_tls".to_string(),
                         then: "[plain, login, oauthbearer, xoauth2]".to_string(),
                     },
                     ExpressionMatch {
-                        if_: "local_port != 25".to_string(),
+                        if_: "listener != 'smtp'".to_string(),
                         then: "[oauthbearer, xoauth2]".to_string(),
                     },
                 ]),
@@ -28417,7 +28417,7 @@ impl Default for MtaStageAuth {
                 ..Default::default()
             },
             require: Expression {
-                else_: "local_port != 25".to_string(),
+                else_: "listener != 'smtp'".to_string(),
                 ..Default::default()
             },
         }
@@ -28634,7 +28634,7 @@ impl MtaStageData {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -28650,7 +28650,7 @@ impl MtaStageData {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -28666,7 +28666,7 @@ impl MtaStageData {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -28682,7 +28682,7 @@ impl MtaStageData {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -28698,7 +28698,7 @@ impl MtaStageData {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -28714,7 +28714,7 @@ impl MtaStageData {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -28846,14 +28846,14 @@ impl Default for MtaStageData {
             add_auth_results_header: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
             add_date_header: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
@@ -28861,28 +28861,28 @@ impl Default for MtaStageData {
             add_message_id_header: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
             add_received_header: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
             add_received_spf_header: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
             add_return_path_header: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
@@ -29015,7 +29015,7 @@ impl MtaStageEhlo {
             default: Some(Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             }),
@@ -29082,7 +29082,7 @@ impl Default for MtaStageEhlo {
             reject_non_fqdn: Expression {
                 else_: "false".to_string(),
                 match_: List::from_iter([ExpressionMatch {
-                    if_: "local_port == 25".to_string(),
+                    if_: "listener == 'smtp'".to_string(),
                     then: "true".to_string(),
                 }]),
             },
