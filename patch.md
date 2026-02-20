@@ -43,3 +43,32 @@ in default expressions for `MtaStageAuth` (`mechanisms`, `require`), `MtaStageDa
 - `cargo test -p registry` passes.
 - Default expressions generated for MTA auth, data headers, and EHLO validation use `listener == 'smtp'` / `listener != 'smtp'` instead of `local_port == 25`.
 - SMTP traffic received over non-standard ports (e.g., mapped port 2525 on a listener named `smtp`) correctly identifies as inbound SMTP.
+
+### 2. Add simple workflow for GHCR x86_64 build
+
+#### background
+
+Automated container image distribution requires a streamlined CI/CD pipeline to build and publish
+production Docker container images to GitHub Container Registry (GHCR) whenever changes are pushed to
+the build branch. Upstream CI workflows are tailored for complex multi-target releases and require
+maintainer credentials not present in downstream forks.
+
+This change introduces a lightweight GitHub Actions workflow (`.github/workflows/ghcr.yml`) targeting
+the `pr-build` branch and supporting manual workflow dispatch. It configures Docker Buildx, authenticates
+to `ghcr.io` using the built-in repository `GITHUB_TOKEN`, leverages GitHub Actions cache (`type=gha`)
+for efficient layer caching, and builds and pushes an x86_64 (`linux/amd64`) image tagged with both the
+commit SHA and `latest`.
+
+#### files
+
+##### .github/workflows/ghcr.yml (create)
+
+Define GitHub Actions workflow `Build and Push GHCR` triggered on push to `pr-build` and `workflow_dispatch`,
+building `Dockerfile` for `linux/amd64` and pushing to `ghcr.io/${{ github.repository }}` with commit SHA and `latest` tags.
+
+#### verify
+
+- Workflow file `.github/workflows/ghcr.yml` is valid YAML.
+- Pushing to the `pr-build` branch or triggering `workflow_dispatch` initiates the `build-and-push-image` job.
+- Docker build successfully packages Stalwart for `linux/amd64` and pushes to `ghcr.io`.
+- `patch.md` documents all fork patches, their rationale, file changes, and verification procedures.
