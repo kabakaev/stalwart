@@ -647,7 +647,7 @@ impl Default for SessionConfig {
                 require: IfBlock::new::<()>("session.ehlo.require", [], "true"),
                 reject_non_fqdn: IfBlock::new::<()>(
                     "session.ehlo.reject-non-fqdn",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
             },
@@ -657,17 +657,17 @@ impl Default for SessionConfig {
                     #[cfg(feature = "test_mode")]
                     [],
                     #[cfg(not(feature = "test_mode"))]
-                    [("local_port != 25", "'*'")],
+                    [("listener != 'smtp'", "'*'")],
                     "false",
                 ),
                 mechanisms: IfBlock::new::<Mechanism>(
                     "session.auth.mechanisms",
                     [
                         (
-                            "local_port != 25 && is_tls",
+                            "listener != 'smtp' && is_tls",
                             "[plain, login, oauthbearer, xoauth2]",
                         ),
-                        ("local_port != 25", "[oauthbearer, xoauth2]"),
+                        ("listener != 'smtp'", "[oauthbearer, xoauth2]"),
                     ],
                     "false",
                 ),
@@ -676,7 +676,7 @@ impl Default for SessionConfig {
                     #[cfg(feature = "test_mode")]
                     [],
                     #[cfg(not(feature = "test_mode"))]
-                    [("local_port != 25", "true")],
+                    [("listener != 'smtp'", "true")],
                     "false",
                 ),
                 must_match_sender: IfBlock::new::<()>("session.auth.must-match-sender", [], "true"),
@@ -726,32 +726,32 @@ impl Default for SessionConfig {
                 ),
                 add_received: IfBlock::new::<()>(
                     "session.data.add-headers.received",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
                 add_received_spf: IfBlock::new::<()>(
                     "session.data.add-headers.received-spf",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
                 add_return_path: IfBlock::new::<()>(
                     "session.data.add-headers.return-path",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
                 add_auth_results: IfBlock::new::<()>(
                     "session.data.add-headers.auth-results",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
                 add_message_id: IfBlock::new::<()>(
                     "session.data.add-headers.message-id",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
                 add_date: IfBlock::new::<()>(
                     "session.data.add-headers.date",
-                    [("local_port == 25", "true")],
+                    [("listener == 'smtp'", "true")],
                     "false",
                 ),
                 add_delivered_to: false,
